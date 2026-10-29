@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD ["npx", "-y", "http-server", ".", "-p", "3000"]
+CMD ["npx", "-y", "http-server", "frontend", "-p", "3000"]
