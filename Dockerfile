@@ -1,16 +1,18 @@
-# 1. Aşama: Standart (Debian tabanlı) Node 20 imajı
+# 1. Aşama: Derleme (Builder)
 FROM node:20 AS builder
 WORKDIR /app
 
-# Frontend paketlerini kopyala ve yükle
+# Paket dosyalarını kopyala
 COPY frontend/package*.json ./
-RUN npm install
+
+# Rolldown native modüllerinin ve optional bağımlılıkların eksiksiz yüklenmesini sağla
+RUN npm install --include=optional
 
 # Tüm frontend dosyalarını kopyala ve build al
 COPY frontend/ ./
 RUN npm run build
 
-# 2. Aşama: Derlenen dosyaları hafif bir sunucu ile yayınlama
+# 2. Aşama: Canlı Sunucu
 FROM node:20
 WORKDIR /app
 RUN npm install -g http-server
