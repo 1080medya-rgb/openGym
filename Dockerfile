@@ -1,8 +1,8 @@
-# 1. Aşama: Frontend projesini derleme (Node 20 kullanılıyor)
-FROM node:20-alpine AS builder
+# 1. Aşama: Standart (Debian tabanlı) Node 20 imajı
+FROM node:20 AS builder
 WORKDIR /app
 
-# Frontend klasörünün içindeki package.json dosyalarını kopyala ve paketleri yükle
+# Frontend paketlerini kopyala ve yükle
 COPY frontend/package*.json ./
 RUN npm install
 
@@ -11,7 +11,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # 2. Aşama: Derlenen dosyaları hafif bir sunucu ile yayınlama
-FROM node:20-alpine
+FROM node:20
 WORKDIR /app
 RUN npm install -g http-server
 
